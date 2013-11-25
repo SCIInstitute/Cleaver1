@@ -1,0 +1,78 @@
+#-----------------------------------------------------------------------------
+#
+#  Copyright (C) 2011, 2012, Jonathan Bronson
+#  Scientific Computing  &  Imaging Institute
+#  University of Utah
+#
+#
+#  Permission is hereby  granted, free of charge, to any person obtaining a
+#  copy of this software and associated documentation files (the "Software"),
+#  to deal in the Software without restriction, including without limitation
+#  the rights to  use, copy, modify,  merge, publish, distribute, sublicense,
+#  and/or  sell  copies of  the Software, and  to permit persons to whom the
+#  Software is  furnished to  do so,  subject  to  the following conditions:
+#
+#  The above copyright notice  and  this permission notice shall be included
+#  in all copies or substantial portions of the Software.
+#
+#  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#  IMPLIED, INCLUDING  BUT NOT  LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#  FITNESS FOR A  PARTICULAR PURPOSE AND  NONINFRINGEMENT. IN  NO EVENT SHALL
+#  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#  LIABILITY, WHETHER  IN  AN  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#  FROM, OUT  OF  OR IN  CONNECTION  WITH THE  SOFTWARE  OR  THE USE OR OTHER
+#  DEALINGS IN THE SOFTWARE.
+#-----------------------------------------------------------------------------
+
+#
+# CleaverConfig.cmake - Cleaver CMake configuration file for external projects.
+#
+# This file is configured by Cleaver and used by the UseCleaver.cmake module
+# to load Cleaver's settings for an external project.
+
+# Global configuration options.
+SET(Cleaver_BUILD_SHARED_LIBS "@BUILD_SHARED_LIBS@")
+
+# The C and C++ flags added by Cleaver to the cmake-configured flags.
+SET(Cleaver_REQUIRED_C_FLAGS "@Cleaver_REQUIRED_C_FLAGS@")
+SET(Cleaver_REQUIRED_CXX_FLAGS "@Cleaver_REQUIRED_CXX_FLAGS@")
+SET(Cleaver_REQUIRED_EXE_LINKER_FLAGS "@Cleaver_REQUIRED_EXE_LINKER_FLAGS@")
+SET(Cleaver_REQUIRED_SHARED_LINKER_FLAGS "@Cleaver_REQUIRED_SHARED_LINKER_FLAGS@")
+SET(Cleaver_REQUIRED_MODULE_LINKER_FLAGS "@Cleaver_REQUIRED_MODULE_LINKER_FLAGS@")
+
+
+# The Cleaver version number
+SET(Cleaver_VERSION_MAJOR @Cleaver_VERSION_MAJOR@)
+SET(Cleaver_VERSION_MINOR @Cleaver_VERSION_MINOR@)
+SET(Cleaver_VERSION_PATCH @Cleaver_VERSION_PATCH@)
+SET(Cleaver_VERSION @Cleaver_VERSION@)
+SET(Cleaver_VERSION_FULL @Cleaver_VERSION_FULL@)
+
+# The location of the UseCleaver.cmake file.
+SET(Cleaver_CMAKE_DIR "@Cleaver_CMAKE_DIR@")
+SET(Cleaver_USE_FILE "${Cleaver_CMAKE_DIR}/UseCleaver.cmake")
+SET(Cleaver_SOURCE_DIR "@Cleaver_SOURCE_DIR@")
+
+# Targets to link with
+SET(Cleaver_LIBRARIES "@Cleaver_LIBRARIES@")
+SET(Cleaver_INCLUDE_DIRS "@Cleaver_INCLUDE_DIRS@")
+SET(Cleaver_LIBRARY_DIRS "@Cleaver_LIBRARY_DIRS@")
+SET(Cleaver_EXTERNAL_LIBRARY_DIRS "@Cleaver_EXTERNAL_LIBRARY_DIRS@")
+
+# Install targets
+SET(Cleaver_INSTALL_BIN_DIR "@Cleaver_INSTALL_BIN_DIR@")
+SET(Cleaver_INSTALL_INCLUDE_DIR "@Cleaver_INSTALL_INCLUDE_DIR@")
+SET(Cleaver_INSTALL_LIB_DIR "@Cleaver_INSTALL_LIB_DIR@")
+
+# Packaging
+SET(Cleaver_CPACK_INSTALL_CMAKE_PROJECTS "@Cleaver_BINARY_DIR@;Cleaver;RuntimeLibraries;/")
+
+SET(Cleaver_CPACK_PACKAGE_NAME "Cleaver")
+SET(Cleaver_CPACK_PACKAGE_VENDOR "University of Utah")
+SET(Cleaver_CPACK_PACKAGE_DESCRIPTION_FILE "@Cleaver_SOURCE_DIR@/README")
+SET(Cleaver_CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cleaver")
+SET(Cleaver_CPACK_RESOURCE_FILE_LICENSE "@Cleaver_SOURCE_DIR@/LICENSE")
+SET(Cleaver_CPACK_PACKAGE_VERSION_MAJOR @Cleaver_VERSION_MAJOR@)
+SET(Cleaver_CPACK_PACKAGE_VERSION_MINOR @Cleaver_VERSION_MINOR@)
+SET(Cleaver_CPACK_PACKAGE_VERSION_PATCH @Cleaver_VERSION_PATCH@)
+SET(Cleaver_CPACK_PACKAGE_VERSION "@Cleaver_VERSION_FULL@")

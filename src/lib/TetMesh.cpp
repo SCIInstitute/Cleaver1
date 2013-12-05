@@ -117,7 +117,6 @@ TetMesh::~TetMesh() {
 
     // delete tets verts, faces, etc
     if (faces) {
-        delete[] faces;
         nFaces = 0;
         faces = NULL;
     }

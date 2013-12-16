@@ -192,7 +192,7 @@ public:
     void getAdjacencyLists(const Face3D *face, Vertex3D *verts[3], Edge3D *edges[3]);
     void getAdjacencyLists(const Tet3D *tet, Vertex3D *verts[4], Edge3D *edges[6], Face3D *faces[4]);
 
-    void getRightHandedVertexList(const Tet3D *tet, Vertex3D *verts[15]);
+    int getRightHandedVertexList(const Tet3D *tet, Vertex3D *verts[15]);
     Vertex3D* getGeneralizedVertex(const Tet3D *tet, const int index);
 
     bool contains(const Face3D *face, Vertex3D *vertex);

@@ -785,7 +785,8 @@ BCCLattice3D::~BCCLattice3D()
 unsigned char BCCLattice3D::generalizedKey(const Tet3D *tet)
 {
     Vertex3D *verts[15];
-    getRightHandedVertexList(tet, verts);
+    if (!getRightHandedVertexList(tet, verts))
+      return 0;
 
     unsigned char key = 0; // 64;
     verts[4] ? key |= 32 : 0 ;
@@ -1717,7 +1718,8 @@ Vertex3D* BCCLattice3D::getGeneralizedVertex(const Tet3D *tet, const int index)
 {
     Vertex3D *verts[15];
 
-    getRightHandedVertexList(tet, verts);
+    if (!getRightHandedVertexList(tet, verts))
+      return NULL;
 
     return verts[index];
 }
@@ -1736,7 +1738,7 @@ Vertex3D* BCCLattice3D::getGeneralizedVertex(const Tet3D *tet, const int index)
 //#define SAFE_PTR(x) (x && x->exists) ? x : NULL
 
 
-void BCCLattice3D::getRightHandedVertexList(const Tet3D *tet, Vertex3D *verts[15])
+int BCCLattice3D::getRightHandedVertexList(const Tet3D *tet, Vertex3D *verts[15])
 {
     OTCell *cell = tet->cell;
 
@@ -2011,9 +2013,10 @@ void BCCLattice3D::getRightHandedVertexList(const Tet3D *tet, Vertex3D *verts[15
         default:
         {
             cerr << "Fatal Error: InvalidTet Index!!" << endl;
-            exit(51);
+            return 0;
         }
     }
+  return 1;
 }
 
 
@@ -2457,7 +2460,6 @@ Tet3D* BCCLattice3D::getInnerTet(const Face3D *face, const Vertex3D *warp_vertex
 
     // if neither hit, we have a problem
     cerr << "Fatal Error:  Failed to find Inner Tet for Face" << endl;
-    exit(-1);
     return NULL;
 }
 
@@ -2525,7 +2527,6 @@ Tet3D* BCCLattice3D::getInnerTet(const Edge3D *edge, const Vertex3D *warp_vertex
 
     // if STILL none hit, we have a problem
     cerr << "Fatal Error: Failed to find Inner Tet for Edge" << endl;
-    exit(-1);
 
     return NULL;
 }

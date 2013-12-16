@@ -222,7 +222,6 @@ void parse_input(int argc, char *argv[])
        if(token[0] == '-')
        {
            print_usage();
-           exit(0);
        }
 
        alpha_short = atoi(token.c_str());

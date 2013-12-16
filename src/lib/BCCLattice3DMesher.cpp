@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 //
-//  Copyright (C) 2011, 2012, 2013, Jonathan Bronson
+//  Copyright (C) 2011, 2012, Jonathan Bronson
 //  Scientific Computing  &  Imaging Institute
 //  University of Utah
 //
@@ -81,7 +81,11 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
     //--------------------------------
     //   Compute All Intersections
     //--------------------------------
-    compute_all_cuts();
+    if (!compute_all_cuts())
+    {
+      cerr << "Cuts computation failed !" << endl;
+      return NULL;
+    }
     if(verbose)
         cout << "Cuts Computed" << endl;
     compute_all_trips();
@@ -112,7 +116,11 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
     //--------------------------------
     //    Generalize Lattice Tets
     //--------------------------------
-    generalize_tets();
+    if (!generalize_tets())
+    {
+      cerr << "Failed to generalizes Tets !" << endl;
+      return NULL;
+    }
     if(verbose)
         cout << "Tets Generalized" << endl;
 
@@ -121,7 +129,11 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
     //------------------------
     if(snap)
     {
-        warp_violating_cuts();
+        if (!warp_violating_cuts())
+        {
+          cerr << "Phase 1 failed !" << endl;
+          return NULL;
+        }
         if(verbose)
             cout << "Phase 1 Complete"  << endl;
 
@@ -138,7 +150,11 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
         //     Snap to Faces
         //------------------------
         detect_quads_violating_faces();
-        warp_violating_quads();
+        if (!warp_violating_quads())
+        {
+          cerr << "Phase 3 failed !" << endl;
+          return NULL;
+        }
         if(verbose)
             cout << "Phase 3 Complete"  << endl;
     }
@@ -176,7 +192,7 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
 // algorithmic lookup, and a global list used solely for
 // visualization.
 //=========================================================
-void BCCLattice3DMesher::compute_all_cuts()
+int BCCLattice3DMesher::compute_all_cuts()
 {
     for(unsigned int c=0; c < lattice->cut_cells.size(); c++){
 
@@ -189,7 +205,7 @@ void BCCLattice3DMesher::compute_all_cuts()
             {
                 cerr << "Problem:  Material Transitions found on boundary." << endl;
                 cerr << "Rerun with padding" << endl;
-                exit(0);
+                return 0;
             }
 
             if(!edge->evaluated)
@@ -198,6 +214,7 @@ void BCCLattice3DMesher::compute_all_cuts()
     }
 
     lattice->setCutsComputed(true);
+    return 1;
 }
 
 
@@ -643,26 +660,6 @@ void BCCLattice3DMesher::compute_quadruple(Tet3D* tet)
     double b5 = M[10]*M[15] - M[11]*M[14];
 
     double det = a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
-
-    if(det == 0)
-    {
-        std::cerr << "Failed to compute Quadruple. Determinant Zero. Using Barycenter." << std::endl;
-
-        Vertex3D *quad = new Vertex3D(lattice->materials());
-
-        quad->lbls[verts[0]->label] = true;
-        quad->lbls[verts[1]->label] = true;
-        quad->lbls[verts[2]->label] = true;
-        quad->lbls[verts[3]->label] = true;
-
-        quad->pos() = 0.25*verts[0]->pos() + 0.25*verts[1]->pos() + 0.25*verts[2]->pos() + 0.25*verts[3]->pos();
-        quad->order() = QUAD;
-        quad->violating = false;
-        tet->quad = quad;
-        quad->closestGeometry = NULL;
-        return;
-    }
-
     double invDet = 1/det;
 
     inv[ 0] = ( M[ 5]*b5 - M[ 6]*b4 + M[ 7]*b3)*invDet;
@@ -1077,7 +1074,7 @@ void BCCLattice3DMesher::check_quadruple_violating_lattice(Tet3D *tet)
 // the cuts / triples / and quads that don't exist, with
 // corresponding lower order vertices that do.
 //======================================================
-void BCCLattice3DMesher::generalize_tets()
+int BCCLattice3DMesher::generalize_tets()
 {
     //--------------------------------------------------
     //      Generalize All Tets In Cut Cells
@@ -1104,7 +1101,7 @@ void BCCLattice3DMesher::generalize_tets()
 
                 if(!lattice->isKeyValid(key)){
                     cout << "BAD TET KEY: " << key << endl;
-                    exit(-1);
+                    return 0;
                 }
 
                 int new_index[11];
@@ -1170,7 +1167,7 @@ void BCCLattice3DMesher::generalize_tets()
                     if(v2[i] == NULL)
                     {
                         cout << "Problem! Tet failed to generalize" << endl;
-                        exit(-1);
+                        return 0;
                     }
                 }
 
@@ -1212,7 +1209,7 @@ void BCCLattice3DMesher::generalize_tets()
 
                 if(!lattice->isKeyValid(key)){
                     cout << "BAD TET KEY: " << key << endl;
-                    exit(-1);
+                    return 0;
                 }
 
                 int new_index[11];
@@ -1278,7 +1275,7 @@ void BCCLattice3DMesher::generalize_tets()
                     if(v2[i] == NULL)
                     {
                         cout << "Unhandled Problem! Tet failed to generalize" << endl;
-                        exit(-1);
+                        return 0;
                     }
                 }
 
@@ -1294,6 +1291,7 @@ void BCCLattice3DMesher::generalize_tets()
     }
 
     lattice->setGeneralized(true);
+    return 1;
 }
 
 
@@ -1434,7 +1432,7 @@ void BCCLattice3DMesher::fill_stencil(Tet3D *tet)
 // It uses the new rule set, defined in the rules.pdf
 // found on the project gforge.
 //===================================================
-void BCCLattice3DMesher::warp_violating_cuts()
+int BCCLattice3DMesher::warp_violating_cuts()
 {
     //---------------------------------------------------
     //  Apply vertex warping to all vertices in lattice
@@ -1446,7 +1444,8 @@ void BCCLattice3DMesher::warp_violating_cuts()
         for(int v=0; v < VERTS_PER_CELL; v++)
         {
             if(!cell->vert[v]->warped)
-                warp_vertex(cell->vert[v]);
+                if(!warp_vertex(cell->vert[v]))
+                  return 0;
         }
     }
 
@@ -1459,10 +1458,12 @@ void BCCLattice3DMesher::warp_violating_cuts()
         OTCell *cell = lattice->buffer_cells[i];
 
         if(!cell->vert[C]->warped)
-            warp_vertex(cell->vert[C]);
+            if (!warp_vertex(cell->vert[C]))
+              return 0;
     }
 
     lattice->setPhase1Complete(true);
+    return 1;
 }
 
 
@@ -1474,7 +1475,7 @@ void BCCLattice3DMesher::warp_violating_cuts()
 // violations. It uses the new rule set, defined in
 // the rules.pdf found on the project gforge.
 //===================================================
-void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
+int BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
 {
     std::vector<Edge3D *>   viol_edges;      // violating cut edges
     std::vector<Face3D *>   viol_faces;      // violating triple-points
@@ -1563,7 +1564,8 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
         //---------------------------------------
         for(unsigned int q=0; q < part_tets.size(); q++)
         {
-            conformQuadruple(part_tets[q], vertex, warp_point);
+          if (!conformQuadruple(part_tets[q], vertex, warp_point))
+            return -1;
         }
 
         //---------------------------------------------------------
@@ -1575,6 +1577,8 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
             if(part_faces[f]->triple->order() == TRIP){
 
                 Tet3D *innerTet = lattice->getInnerTet(part_faces[f], vertex, warp_point);
+                if (!innerTet)
+                  return -1;
                 Vertex3D *q = innerTet->quad;
 
                 Edge3D *edges[3];
@@ -1582,7 +1586,8 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
 
                 // conform triple if it's also a quad (would not end up in part_quads list)
                 if(q->isEqualTo(part_faces[f]->triple)){
-                    conformQuadruple(innerTet, vertex, warp_point);
+                  if (!conformQuadruple(innerTet, vertex, warp_point))
+                    return -1;
                 }
                 // coincide with Quad if it conformed to face
                 else if(q->order() == QUAD && q->conformedFace == part_faces[f])
@@ -1601,7 +1606,8 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
                 // otherwise intersect lattice face with Q-T interface
                 else{
                     part_faces[f]->triple->pos_next() = projectTriple(part_faces[f], q, vertex, warp_point);
-                    conformTriple(part_faces[f], vertex, warp_point);
+                    if (!conformTriple(part_faces[f], vertex, warp_point))
+                      return 0;
                 }
 
 
@@ -1609,14 +1615,14 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
                 if(part_faces[f]->triple->pos_next() != part_faces[f]->triple->pos_next())
                 {
                     cerr << "Fatal Error:  Triplepoint set to NaN: Failed to project triple, using InnerTet.  Cell = [" << vertex->cell->xLocCode << "," << vertex->cell->yLocCode << "," << vertex->cell->zLocCode << "]" << endl;
-                    exit(1445);
+                    return 0;
                 }
 
                 // Sanity Check for Zero
                 if(part_faces[f]->triple->pos_next() == vec3::zero)
                 {
                     cerr << "Fatal Error:  Triplepoint set to vec3::zero == (0,0,0)" << endl;
-                    exit(1452);
+                    return 0;
                 }
             }
         }
@@ -1630,6 +1636,8 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
             if(part_edges[e]->cut->order() == CUT){
 
                 Tet3D *innertet = lattice->getInnerTet(part_edges[e], vertex, warp_point);
+                if (!innertet)
+                  return -1;
 
                 Face3D *faces[6] = {0};
                 unsigned int face_count = 0;
@@ -1812,6 +1820,8 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
         //--------------------------------------
         resolve_degeneracies_around_vertex(vertex);
     }
+
+  return 1;
 }
 
 
@@ -1823,7 +1833,7 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
 // the interior of the bounding tetrahdron. If it does not, it is 'conformed' to a
 // face, edge or vertex, by projecting any negative barycentric coordinates to be zero.
 //=====================================================================================
-void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, const vec3 &warp_pt)
+int BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, const vec3 &warp_pt)
 {
     double EPS = 1E-3;
 
@@ -1860,11 +1870,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
     vec3 v2 = verts[1]->pos();
     vec3 v3 = verts[2]->pos();
     vec3 v4 = verts[3]->pos();
-
-    if(quadruple != quadruple)
-    {
-        std::cerr << "PROBLEM!" << std::endl;
-    }
 
     // Fill Coordinate Matrix
     A[0][0] = v1.x - v4.x; A[0][1] = v2.x - v4.x; A[0][2] = v3.x - v4.x;
@@ -2055,7 +2060,7 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
 
     if(quad->conformedVertex != NULL){
         cerr << "unhandled exception: quad->conformedVertex != NULL" << endl;
-        exit(-1);
+        return 0;
     }
 
     double L1 = lambda.x + lambda.y + lambda.z + lambda_w;
@@ -2067,6 +2072,7 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
     quadruple.z = lambda.x*v1.z + lambda.y*v2.z + lambda.z*v3.z + (1.0 - (lambda.x + lambda.y + lambda.z))*v4.z;
 
     quad->pos_next() = quadruple;
+    return 0;
 }
 
 
@@ -2140,7 +2146,7 @@ vec3 BCCLattice3DMesher::projectTriple(Face3D *face, Vertex3D *quad, Vertex3D *w
 // the interior of the bounding triangular face. If it does not, it is 'conformed'
 // to the edge, by projecting any negative barycentric coordinates to be zero.
 //=====================================================================================
-void BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, const vec3 &warp_pt)
+int BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, const vec3 &warp_pt)
 {
     double EPS = 1E-3;
 
@@ -2248,7 +2254,6 @@ void BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, cons
 
     lambda /= L1(lambda);
 
-
     // Compute New Triple Coordinate
     triple.x = lambda.x*v1.x + lambda.y*v2.x + lambda.z*v3.x;
     triple.y = lambda.x*v1.y + lambda.y*v2.y + lambda.z*v3.y;
@@ -2256,11 +2261,12 @@ void BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, cons
 
     if(triple == vec3::zero || triple != triple)
     {
-        std::cerr << "Error Conforming Triple!" << std::endl;
-        exit(-1);
+        cerr << "Error Conforming Triple!" << endl;
+        return 0;
     }
 
     face->triple->pos_next() = triple;
+    return 1;
 }
 
 vec3 BCCLattice3DMesher::projectCut(Edge3D *edge, Tet3D *tet, Vertex3D *warp_vertex, const vec3 &warp_pt)
@@ -3056,7 +3062,7 @@ void BCCLattice3DMesher::check_quadruple_violating_faces(Tet3D *tet)
 // is noticeably naive, and can be accelerated by only
 // examining triple points that are known to violate.
 //======================================================
-void BCCLattice3DMesher::warp_violating_quads()
+int BCCLattice3DMesher::warp_violating_quads()
 {
     for(unsigned int c=0; c < lattice->cut_cells.size(); c++)
     {
@@ -3111,7 +3117,7 @@ void BCCLattice3DMesher::warp_violating_quads()
                         default:
                         {
                             cerr << "Fatal Error - Quad order == " << tets[t]->quad->order() << endl;
-                            exit(-1);
+                            return 0;
                         }
                     }
                 }
@@ -3120,6 +3126,7 @@ void BCCLattice3DMesher::warp_violating_quads()
     }
 
     lattice->setPhase3Complete(true);
+    return 1;
 }
 
 //=====================================================================

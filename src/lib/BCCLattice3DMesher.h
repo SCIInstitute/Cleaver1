@@ -57,20 +57,20 @@ public:
 
     TetMesh* mesh(bool snap = true, bool verbose = false);
 
-    void compute_all_cuts();
+    int compute_all_cuts();
     void compute_all_trips();
     void compute_all_quads();
-    void generalize_tets();
+    int generalize_tets();
     void fill_all_stencils();
 
     void detect_trips_violating_edges();
     void detect_quads_violating_edges();
     void detect_quads_violating_faces();
 
-    void warp_violating_cuts();
+    int warp_violating_cuts();
     void warp_violating_trips();
-    void warp_violating_quads();
-    void warp_vertex(Vertex3D *vertex);
+    int warp_violating_quads();
+    int warp_vertex(Vertex3D *vertex);
     void warp_edge(Edge3D *edge);
 
     void setLattice(BCCLattice3D *lattice){ this->lattice = lattice; }
@@ -129,8 +129,8 @@ private:
     vec3 projectCut(Edge3D *edge, Tet3D *tet, Vertex3D *warp_vertex, const vec3 &warp_pt);
     vec3 projectTriple(Face3D *face, Vertex3D *quad, Vertex3D *warp_vertex, const vec3 &warp_pt);
 
-    void conformTriple(Face3D *face, Vertex3D *warp_vertex, const vec3 &warp_pt);
-    void conformQuadruple(Tet3D *quad, Vertex3D *warp_vertex, const vec3 &warp_pt);
+    int conformTriple(Face3D *face, Vertex3D *warp_vertex, const vec3 &warp_pt);
+    int conformQuadruple(Tet3D *quad, Vertex3D *warp_vertex, const vec3 &warp_pt);
 
     float alpha_short;
     float alpha_long;

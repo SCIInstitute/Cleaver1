@@ -42,6 +42,8 @@ SET(Cleaver_CMAKE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 INCLUDE_DIRECTORIES(${Cleaver_CMAKE_DIR})
 INCLUDE(${Cleaver_CMAKE_DIR}/CleaverExportLibrary.cmake)
 
+SET(Cleaver_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 # Build Cleaver Library (no dependencies)
 ADD_SUBDIRECTORY(lib)
 
@@ -65,5 +67,5 @@ LIST(REMOVE_DUPLICATES Cleaver_LIBRARY_DIRS)
 # Configure config file for find_package
 CONFIGURE_FILE(
   ${Cleaver_CMAKE_DIR}/CleaverConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/CleaverConfig.cmake
+  ${Cleaver_BINARY_DIR}/CleaverConfig.cmake
   )

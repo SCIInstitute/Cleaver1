@@ -52,6 +52,7 @@ SET(Cleaver_VERSION_FULL @Cleaver_VERSION_FULL@)
 SET(Cleaver_CMAKE_DIR "@Cleaver_CMAKE_DIR@")
 SET(Cleaver_USE_FILE "${Cleaver_CMAKE_DIR}/UseCleaver.cmake")
 SET(Cleaver_SOURCE_DIR "@Cleaver_SOURCE_DIR@")
+SET(Cleaver_BINARY_DIR "@Cleaver_BINARY_DIR@")
 
 # Targets to link with
 SET(Cleaver_LIBRARIES "@Cleaver_LIBRARIES@")

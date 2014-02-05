@@ -1581,7 +1581,7 @@ int BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
         for(unsigned int q=0; q < part_tets.size(); q++)
         {
           if (!conformQuadruple(part_tets[q], vertex, warp_point))
-            return -1;
+            return 0;
         }
 
         //---------------------------------------------------------
@@ -1594,7 +1594,7 @@ int BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
 
                 Tet3D *innerTet = lattice->getInnerTet(part_faces[f], vertex, warp_point);
                 if (!innerTet)
-                  return -1;
+                  return 0;
                 Vertex3D *q = innerTet->quad;
 
                 Edge3D *edges[3];
@@ -1603,7 +1603,7 @@ int BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
                 // conform triple if it's also a quad (would not end up in part_quads list)
                 if(q->isEqualTo(part_faces[f]->triple)){
                   if (!conformQuadruple(innerTet, vertex, warp_point))
-                    return -1;
+                    return 0;
                 }
                 // coincide with Quad if it conformed to face
                 else if(q->order() == QUAD && q->conformedFace == part_faces[f])
@@ -1653,7 +1653,7 @@ int BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
 
                 Tet3D *innertet = lattice->getInnerTet(part_edges[e], vertex, warp_point);
                 if (!innertet)
-                  return -1;
+                  return 0;
 
                 Face3D *faces[6] = {0};
                 unsigned int face_count = 0;
@@ -2093,7 +2093,7 @@ int BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, cons
     quadruple.z = lambda.x*v1.z + lambda.y*v2.z + lambda.z*v3.z + (1.0 - (lambda.x + lambda.y + lambda.z))*v4.z;
 
     quad->pos_next() = quadruple;
-    return 0;
+    return 1;
 }
 
 

@@ -45,9 +45,9 @@ namespace Cleaver
 
 FloatField::CenteringType FloatField::DefaultCenteringType = FloatField::CellCentered;
 
-FloatField::FloatField(int width=0, int height=0, int depth = 0, float *data = 0)
+FloatField::FloatField(int width, int height, int depth, float *data)
     : m_w(width), m_h(height), m_d(depth), m_data(data)
-{    
+{
     // default to data bounds
     m_scale = vec3(vec3::unitX.x, vec3::unitY.y, vec3::unitZ.z);
     m_scaleInv = m_scale;

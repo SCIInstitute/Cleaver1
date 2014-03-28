@@ -821,17 +821,6 @@ bool BCCLattice3D::isKeyValid(unsigned char key)
         return true;
     else
         return false;
-
-    /*
-    // old key ordering
-    if (key == 0 || key == 14 || key == 21 || key == 35 || key == 56 ||
-       key == 27 || key == 45 || key == 54 ||
-       key == 31 || key == 47 || key == 55 || key == 59 || key == 61 || key == 62 ||
-       key == 63)
-        return true;
-    else
-        return false;
-    */
 }
 
 

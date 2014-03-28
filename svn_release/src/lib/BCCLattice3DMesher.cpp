@@ -1657,12 +1657,6 @@ void BCCLattice3DMesher::warp_vertex(Vertex3D *vertex)
         //------------------------------------
         vertex->pos() = warp_point;
 
-        /*
-        for(int tst=0; tst < VERTS_PER_CELL; tst++)
-            if(vertex->cell->vert[tst]->pos() == vec3::zero || vertex->cell->vert[tst]->pos() != vertex->cell->vert[tst]->pos())
-                cerr << "Uncaught Exception: pos == " << (vertex->cell->vert[tst]->pos().toString()).c_str() << endl;
-        */
-
         for (unsigned int e=0; e < part_edges.size(); e++){
             if(part_edges[e]->cut->order() == CUT){
                 part_edges[e]->cut->pos() = part_edges[e]->cut->pos_next();
@@ -2094,22 +2088,6 @@ vec3 BCCLattice3DMesher::projectTriple(Face3D *face, Vertex3D *quad, Vertex3D *w
 
 
     vec3 intersection = I_a + d*l;
-
-    // Debugging code 10/6/11
-    /*
-    if(intersection.x != intersection.x)
-    {
-        cerr << "project triple returned NaN interesction point" << endl;        
-        exit(-1);
-    }
-    if(intersection == vec3::zero)
-    {
-        cerr << "project triple returned Zero intersection point" << endl;
-        exit(-1);
-    }
-    */
-
-
 
     return intersection;
 }

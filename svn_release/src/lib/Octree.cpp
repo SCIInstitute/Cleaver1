@@ -352,20 +352,6 @@ OTCell* Octree::getNeighborNew(const OTCell *cell, const int offset[3])
 
 OTCell* Octree::getNeighborNew(const OTCell *cell, int x_offset, int y_offset, int z_offset)
 {
-    // if neighbor pointer exists, use it quickly
-    /*
-    if(cell->neighbor[x_offset+1][y_offset+1][z_offset+1])
-    {
-        return cell->neighbor[x_offset+1][y_offset+1][z_offset+1];
-    }
-    // otherwise, call getCell()
-    else
-    {
-        return getCell(cell->xLocCode+x_offset,
-                       cell->yLocCode+y_offset,
-                       cell->zLocCode+z_offset);
-    }
-    */
     return NULL;
 }
 

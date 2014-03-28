@@ -147,7 +147,6 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
     //  Fill in Tet Stencils
     //-------------------------
     tm = new TetMesh(*lattice->verts,*lattice->tets);
-    //tm->include_bg_tets = false;
     fill_all_stencils();
 
     if(verbose)
@@ -297,8 +296,6 @@ void BCCLattice3DMesher::compute_cut(Edge3D *edge)
     else
         cut->closestGeometry = v2;
 
-    //cut->vals[a_mat] = mat_val;
-    //cut->vals[b_mat] = mat_val;
     cut->label = a_mat;         // doesn't really matter which
     cut->lbls[v1->label] = true;
     cut->lbls[v2->label] = true;
@@ -315,9 +312,7 @@ void BCCLattice3DMesher::compute_cut(Edge3D *edge)
     else
         cut->violating = false;
 
-    //lattice->cuts.push_back(cut);
     edge->cut = cut;
-    //cut->m_edge = edge;
     cut->order() = 1;
 }
 
@@ -459,7 +454,6 @@ void BCCLattice3DMesher::compute_triple(Face3D *face)
         vec3 p3_m3 = vec3(v3->pos().x, lattice->volume->valueAt(v3->pos(), m3), v3->pos().z);
 
 
-        //cout << "axis 1" << endl;
         construct_plane(p1_m1, p2_m1, p3_m1, a1,b1,c1,d1);
         construct_plane(p1_m2, p2_m2, p3_m2, a2,b2,c2,d2);
         construct_plane(p1_m3, p2_m3, p3_m3, a3,b3,c3,d3);
@@ -509,7 +503,6 @@ void BCCLattice3DMesher::compute_triple(Face3D *face)
         vec3 p2_m3 = vec3(v2->pos().x, v2->pos().y, lattice->volume->valueAt(v2->pos(), m3));
         vec3 p3_m3 = vec3(v3->pos().x, v3->pos().y, lattice->volume->valueAt(v3->pos(), m3));
 
-        //cout << "axis 2" << endl;
         construct_plane(p1_m1, p2_m1, p3_m1, a1,b1,c1,d1);
         construct_plane(p1_m2, p2_m2, p3_m2, a2,b2,c2,d2);
         construct_plane(p1_m3, p2_m3, p3_m3, a3,b3,c3,d3);
@@ -810,7 +803,6 @@ void BCCLattice3DMesher::check_cut_violating_lattice(Edge3D *edge)
     vec3 b = edge->v2->pos();
     vec3 c = cut->pos();
 
-    //cut->t = L2(c - a) / L2(b - a);
     double t = L2(c - a) / L2(b - a);
 
     float alpha;
@@ -1912,7 +1904,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             for(int i=0; i < 6; i++){
                 if(edges[i]->containsBoth(verts[2],verts[3])){
                     quad->conformedEdge = edges[i];
-                    //cout << "conformed to Edge" << endl;
                     break;
                 }
             }
@@ -1925,7 +1916,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             for(int i=0; i < 6; i++){
                 if(edges[i]->containsBoth(verts[1],verts[3])){
                     quad->conformedEdge = edges[i];
-                    //cout << "conformed to Edge" << endl;
                     break;
                 }
             }
@@ -1938,7 +1928,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             for(int i=0; i < 6; i++){
                 if(edges[i]->containsBoth(verts[1],verts[2])){
                     quad->conformedEdge = edges[i];
-                    //cout << "conformed to Edge" << endl;
                     break;
                 }
             }
@@ -1952,7 +1941,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             {
                 if(!lattice->contains(faces[i], verts[0])){
                     quad->conformedFace = faces[i];
-                    //cout << "Conformed to Face" << endl;
                     break;
                 }
             }
@@ -1969,7 +1957,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             for(int i=0; i < 6; i++){
                 if(edges[i]->containsBoth(verts[0],verts[3])){
                     quad->conformedEdge = edges[i];
-                    //cout << "conformed to Edge" << endl;
                     break;
                 }
             }
@@ -1982,7 +1969,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             for(int i=0; i < 6; i++){
                 if(edges[i]->containsBoth(verts[0],verts[2])){
                     quad->conformedEdge = edges[i];
-                    //cout << "conformed to Edge" << endl;
                     break;
                 }
             }
@@ -1996,7 +1982,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             {
                 if(!lattice->contains(faces[i], verts[1])){
                     quad->conformedFace = faces[i];
-                    //cout << "Conformed to Face" << endl;
                     break;
                 }
             }
@@ -2012,7 +1997,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             for(int i=0; i < 6; i++){
                 if(edges[i]->containsBoth(verts[0],verts[1])){
                     quad->conformedEdge = edges[i];
-                    //cout << "conformed to Edge" << endl;
                     break;
                 }
             }
@@ -2026,7 +2010,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
             {
                 if(!lattice->contains(faces[i], verts[2])){
                     quad->conformedFace = faces[i];
-                    //cout << "Conformed to Face" << endl;
                     break;
                 }
             }
@@ -2041,7 +2024,6 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
         {
             if(!lattice->contains(faces[i], verts[3])){
                 quad->conformedFace = faces[i];
-                //cout << "Conformed to Face" << endl;
                 break;
             }
         }
@@ -2173,7 +2155,7 @@ void BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, cons
     double A[3][3];
     vec3 triple = trip->pos_next();   // was ->pos  8/11/11
     vec3 inv1,inv2,inv3;
-    vec3 v1 = warp_pt;     //verts[0]->pos;
+    vec3 v1 = warp_pt;     
     vec3 v2 = verts[1]->pos();
     vec3 v3 = verts[2]->pos();
     vec3 v4 = v1 + normalize(cross(normalize(v3 - v1), normalize(v2 - v1)));
@@ -2394,7 +2376,6 @@ bool BCCLattice3DMesher::triangle_intersect(Vertex3D *v1, Vertex3D *v2, Vertex3D
     //----------------------------------------------
     // compute intersection with plane, store in pt
     //----------------------------------------------
-    //bool plane_hit = plane_intersect(v1, v2, v3, origin, ray, pt);
     plane_intersect(v1, v2, v3, origin, ray, pt);
     vec3 tri_pt = vec3::zero;
 
@@ -2467,9 +2448,6 @@ bool BCCLattice3DMesher::triangle_intersect(Vertex3D *v1, Vertex3D *v2, Vertex3D
 
     // how far are we from the actual triangle pt?
     error = (float)L2(tri_pt - pt);
-
-    //if(error != error)
-    //    cerr << "TriangleIntersect2 error = NaN" << endl;
 
     //----------------------------------------------
     //  If Made It This Far,  Return Success

@@ -74,8 +74,6 @@ protected:
     Cleaver::BoundingBox m_bounds;
 };
 
-//static Volume createPaddedVolume(const Volume &volume, float thickness, float high, float low);
-
 }
 
 #endif // VOLUME_H

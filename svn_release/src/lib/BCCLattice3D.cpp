@@ -2483,7 +2483,7 @@ Tet3D* BCCLattice3D::getInnerTet(const Edge3D *edge, const Vertex3D *warp_vertex
     else
         static_vertex = edge->v1;
 
-    vec3 origin = 0.5*(edge->v1->pos() + edge->v2->pos());  //edge->cut->pos(); //static_vertex->pos(); //
+    vec3 origin = 0.5*(edge->v1->pos() + edge->v2->pos());  
     vec3 ray = warp_pt - origin;
 
     for(unsigned int t=0; t < tet_count; t++)

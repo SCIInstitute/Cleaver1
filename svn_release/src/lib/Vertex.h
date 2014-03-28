@@ -111,13 +111,11 @@ public:
 
     // member variables
     OTCell *cell;
-    //float *vals;               // material values
     bool  *lbls;               // material labels
     unsigned char vert_index;
     unsigned char label;       // single label (for generating texture image)
     bool violating:1;            // is this cut violating
     bool warped:1;
-    //double t;        // if cut, t value along edge
 
     Geometry *closestGeometry;
     Face3D   *conformedFace;

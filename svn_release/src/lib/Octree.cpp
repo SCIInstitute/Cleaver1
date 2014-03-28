@@ -206,9 +206,9 @@ OTCell::~OTCell()
 
 OTCell* Octree::addCell(float x, float y, float z)
 {
-    unsigned int xLocCode = (unsigned int)x; // (x * this->maxVal);
-    unsigned int yLocCode = (unsigned int)y; // (y * this->maxVal);
-    unsigned int zLocCode = (unsigned int)z; // (z * this->maxVal);
+    unsigned int xLocCode = (unsigned int)x;
+    unsigned int yLocCode = (unsigned int)y;
+    unsigned int zLocCode = (unsigned int)z;
 
     // figure out where this cell should go
     OTCell *pCell = this->root;
@@ -248,9 +248,9 @@ OTCell* Octree::addCell(float x, float y, float z)
 //safe to use unless you know what you're doing.
 OTCell* Octree::addCellAtLevel(float x, float y, float z, unsigned int level)
 {
-    unsigned int xLocCode = (unsigned int)x; // (x * this->maxVal);
-    unsigned int yLocCode = (unsigned int)y; // (y * this->maxVal);
-    unsigned int zLocCode = (unsigned int)z; // (z * this->maxVal);
+    unsigned int xLocCode = (unsigned int)x; 
+    unsigned int yLocCode = (unsigned int)y; 
+    unsigned int zLocCode = (unsigned int)z; 
 
     // figure out where this cell should go
     OTCell *pCell = this->root;
@@ -291,9 +291,9 @@ OTCell* Octree::getCell(float x, float y, float z)
         return NULL;
 
 
-    unsigned int xLocCode = (unsigned int) x; //(x * this->maxVal);
-    unsigned int yLocCode = (unsigned int) y; //(y * this->maxVal);
-    unsigned int zLocCode = (unsigned int) z; //(z * this->maxVal);
+    unsigned int xLocCode = (unsigned int) x; 
+    unsigned int yLocCode = (unsigned int) y; 
+    unsigned int zLocCode = (unsigned int) z; 
 
     // branch to appropriate cell
     OTCell *pCell = this->root;
@@ -320,9 +320,9 @@ OTCell* Octree::getDeepestCellParent(float x, float y, float z)
     else if(x >= w || y >= h || z >= d)
         return NULL;
 
-    unsigned int xLocCode = (unsigned int) x; //(x * this->maxVal);
-    unsigned int yLocCode = (unsigned int) y; //(y * this->maxVal);
-    unsigned int zLocCode = (unsigned int) z; //(z * this->maxVal);
+    unsigned int xLocCode = (unsigned int) x; 
+    unsigned int yLocCode = (unsigned int) y; 
+    unsigned int zLocCode = (unsigned int) z; 
 
     // branch to appropriate cell
     OTCell *pCell = this->root;
@@ -382,83 +382,6 @@ OTCell* Octree::getNeighbor(const OTCell *cell, int x_offset, int y_offset, int 
     return getCell(cell->xLocCode+x_offset,
                    cell->yLocCode+y_offset,
                    cell->zLocCode+z_offset);
-
-/*
-    if((cell->xLocCode + x_offset) < 0 ||
-       (cell->yLocCode + y_offset) < 0 ||
-       (cell->zLocCode + z_offset) < 0)
-        return NULL;
-
-    // Get cell's x,y, and z locational codes
-    unsigned int xLocCode = cell->xLocCode;
-    unsigned int yLocCode = cell->yLocCode;
-    unsigned int zLocCode = cell->zLocCode;
-
-    // Get Neighbors x,y, and z locational codes
-    unsigned int binaryCellSize = 1;    // << cell->level; We only care about leaves
-    unsigned int xNeighborLocCode = xLocCode + (x_offset * binaryCellSize);
-    unsigned int yNeighborLocCode = yLocCode + (y_offset * binaryCellSize);
-    unsigned int zNeighborLocCode = zLocCode + (z_offset * binaryCellSize);
-
-    // Determine smallest common ancestor
-    unsigned int x_diff = xLocCode ^ xNeighborLocCode;
-    unsigned int y_diff = yLocCode ^ yNeighborLocCode;
-    unsigned int z_diff = zLocCode ^ zNeighborLocCode;
-    //unsigned int diff = max(x_diff, y_diff, z_diff);
-
-    //OTCell *pCell = cell;
-    unsigned int cellLevel, nextLevel;
-    cellLevel = nextLevel = cell->level;
-
-    // Get Common Ancestor
-    unsigned int x_nextLevel = cell->level;
-    unsigned int y_nextLevel = cell->level;
-    unsigned int z_nextLevel = cell->level;
-    OTCell *x_pCell = getCommonAncestor(cell, x_nextLevel, x_diff);
-    OTCell *y_pCell = getCommonAncestor(cell, y_nextLevel, y_diff);
-    OTCell *z_pCell = getCommonAncestor(cell, z_nextLevel, z_diff);
-    x_nextLevel--;
-    y_nextLevel--;
-    z_nextLevel--;
-
-    OTCell *pCell = 0;
-    if(x_pCell->level > y_pCell->level){
-        if(x_pCell->level > z_pCell->level){
-            pCell = x_pCell;
-            nextLevel = x_nextLevel;
-        }
-        else{
-            pCell = z_pCell;
-            nextLevel = z_nextLevel;
-        }
-    }
-    else{
-        if(y_pCell->level > z_pCell->level){
-            pCell = y_pCell;
-            nextLevel = y_nextLevel;
-        }
-        else{
-            pCell = z_pCell;
-            nextLevel = z_nextLevel;
-        }
-    }
-
-    // Traverse Down To Neighbor
-    unsigned int n = nextLevel - cellLevel + 1;
-    while (n--){
-        unsigned int childBranchBit = 1 << nextLevel;
-        unsigned int childIndex = ((xLocCode  & childBranchBit) >> (nextLevel))
-                                + (((yLocCode  & childBranchBit) >> (nextLevel)) << 1)
-                                + (((zLocCode & childBranchBit) >> (nextLevel)) << 2);
-        --nextLevel;
-        pCell = (pCell->children[childIndex]);
-        if(pCell == NULL)
-            break;
-    }
-
-    // return neighbor
-    return pCell;
-*/
 }
 
 
@@ -473,9 +396,9 @@ OTCell* Octree::getNeighborAtMyLevel(const OTCell *cell, int x_dir, int y_dir, i
     else if(x >= w || y >= h || z >= d)
         return NULL;
 
-    unsigned int xLocCode = (unsigned int) x; //(x * this->maxVal);
-    unsigned int yLocCode = (unsigned int) y; //(y * this->maxVal);
-    unsigned int zLocCode = (unsigned int) z; //(z * this->maxVal);
+    unsigned int xLocCode = (unsigned int) x; 
+    unsigned int yLocCode = (unsigned int) y; 
+    unsigned int zLocCode = (unsigned int) z; 
 
     // branch to appropriate cell
     OTCell *pCell = this->root;

@@ -110,7 +110,7 @@ private:
 
     void fill_stencil(Tet3D *tet);    
 
-	bool isTransition(const std::vector<bool>& set1, const std::vector<bool>& set2);
+    bool isTransition(bool *set1, bool *set2);
     void fixTriangleOrdering(Edge3D *edges[], Vertex3D *verts[]);
     void fixTetrahedronOrdering(Face3D *faces[], Edge3D *edges[], Vertex3D *verts[]);
 

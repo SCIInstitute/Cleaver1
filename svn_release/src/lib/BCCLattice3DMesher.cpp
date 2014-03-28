@@ -99,12 +99,14 @@ TetMesh* BCCLattice3DMesher::mesh(bool snap, bool verbose)
     for(unsigned int i=0; i < lattice->cut_cells.size(); i++)
     {
         Vertex3D *dual = lattice->cut_cells[i]->vert[C];
-		dual->lbls.clear();
+        delete[] dual->lbls;
+        dual->lbls = NULL;
     }
     for(unsigned int i=0; i < lattice->buffer_cells.size(); i++)
     {
         Vertex3D *dual = lattice->buffer_cells[i]->vert[C];        
-		dual->lbls.clear();
+        delete[] dual->lbls;        
+        dual->lbls = NULL;
     }
 
     //--------------------------------
@@ -3396,7 +3398,7 @@ void BCCLattice3DMesher::snap_quad_to_triple(Vertex3D *&quad, Vertex3D *triple)
 // index is TRUE in both lists, FALSE is returned. This
 // is useful for finding material transitions on triangles.
 //===========================================================
-bool BCCLattice3DMesher::isTransition(const std::vector<bool>& set1, const std::vector<bool>& set2)
+bool BCCLattice3DMesher::isTransition(bool *set1, bool *set2)
 {
     int n = lattice->materials();
     for(int i=0; i < n; i++){

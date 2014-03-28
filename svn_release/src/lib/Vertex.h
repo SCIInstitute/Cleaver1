@@ -58,17 +58,21 @@ class Vertex3D : public Geometry{
 
 public:
     Vertex3D(OTCell *cell, int index):cell(cell),lbls(NULL),vert_index(index),violating(false),warped(false),parent(NULL),tm_v_index(-1),m_order(0),m_pos(vec3::zero),m_pos_next(vec3::zero){ }
-    Vertex3D():cell(NULL),vert_index(-1), violating(false),warped(false), closestGeometry(NULL), conformedFace(NULL), conformedEdge(NULL), conformedVertex(NULL),
+    Vertex3D():cell(NULL), lbls(NULL),vert_index(-1), violating(false),warped(false), closestGeometry(NULL), conformedFace(NULL), conformedEdge(NULL), conformedVertex(NULL),
         parent(NULL), tm_v_index(-1), m_order(0), m_pos(vec3::zero),m_pos_next(vec3::zero){}
-    Vertex3D(int m):cell(NULL), lbls(m), vert_index(-1), violating(false), warped(false), closestGeometry(NULL), conformedFace(NULL), conformedEdge(NULL),
+    Vertex3D(int m):cell(NULL), lbls(new bool[m]), vert_index(-1), violating(false), warped(false), closestGeometry(NULL), conformedFace(NULL), conformedEdge(NULL),
         conformedVertex(NULL), parent(NULL), tm_v_index(-1), m_order(0),m_pos(vec3::zero),m_pos_next(vec3::zero)
     {
+        memset(lbls, 0, m*sizeof(bool));
     }
 
-    Vertex3D(int m, OTCell *cell, int index):cell(cell), lbls(m), vert_index(index), violating(false), warped(false), closestGeometry(NULL), conformedFace(NULL), conformedEdge(NULL),
+    Vertex3D(int m, OTCell *cell, int index):cell(cell), lbls(new bool[m]), vert_index(index), violating(false), warped(false), closestGeometry(NULL), conformedFace(NULL), conformedEdge(NULL),
         conformedVertex(NULL), parent(NULL), tm_v_index(-1), m_order(0),m_pos(vec3::zero),m_pos_next(vec3::zero)
     {
+        memset(lbls, 0, m*sizeof(bool));
     }
+
+    ~Vertex3D();
 
     inline vec3& pos(){
         Vertex3D* ptr = this;
@@ -107,7 +111,7 @@ public:
 
     // member variables
     OTCell *cell;
-    std::vector<bool> lbls;               // material labels
+    bool  *lbls;               // material labels
     unsigned char vert_index;
     unsigned char label;       // single label (for generating texture image)
     bool violating:1;            // is this cut violating

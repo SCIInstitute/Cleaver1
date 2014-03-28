@@ -72,6 +72,12 @@ private:
 
 TetMesh* createMeshFromVolume(const AbstractVolume *volume, bool verbose = false);
 
+class CleaverException : public std::runtime_error
+{
+public:
+	explicit CleaverException(const std::string& message) : std::runtime_error(message) {}
+};
+
 extern const std::string VersionNumber;
 extern const std::string VersionDate;
 extern const std::string Version;

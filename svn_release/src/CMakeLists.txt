@@ -9,7 +9,7 @@
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 #
-#  Copyright (C) 2011, 2012, Jonathan Bronson
+#  Copyright (C) 2011, 2012, 2013, Jonathan Bronson
 #  Scientific Computing  &  Imaging Institute
 #  University of Utah
 #
@@ -36,8 +36,8 @@
 PROJECT(CLEAVER)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-#SET(CMAKE_BUILD_TYPE DEBUG)
-SET(CMAKE_BUILD_TYPE RelWithDebInfo)
+SET(CMAKE_BUILD_TYPE DEBUG)
+#SET(CMAKE_BUILD_TYPE RelWithDebInfo)
 #SET(CMAKE_CXX_FLAGS "-Wall -ansi -O3" )
 #SET(CMAKE_DEBUG_FLAGS "-Wall -ansi -O3" )
 

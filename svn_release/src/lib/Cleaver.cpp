@@ -52,8 +52,8 @@ using namespace std;
 
 namespace Cleaver
 {
-    const std::string VersionNumber = "1.5.3";
-    const std::string VersionDate = "Jan 29, 2013";
+    const std::string VersionNumber = "1.5.4";
+    const std::string VersionDate = "Dec 20, 2013";
     const std::string Version = std::string("Version") + " " + VersionNumber + " " + VersionDate;
 
     const float DefaultAlphaShort = 0.357f;

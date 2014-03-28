@@ -389,7 +389,7 @@ void print_help()
     std::cerr << "with Bounded Element Quality." << std::endl;
     std::cerr << Cleaver::Version << std::endl << std::endl;
 
-    std::cerr << "Copyright (C) 2012" << std::endl;
+    std::cerr << "Copyright (C) 2013" << std::endl;
     std::cerr << "Jonathan Bronson" << std::endl;
     std::cerr << "bronson@sci.utah.edu" << std::endl;
     std::cerr << "Scientific Computing & Imaging Institute" << std::endl;

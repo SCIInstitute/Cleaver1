@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 //
-//  Copyright (C) 2011, 2012, Jonathan Bronson
+//  Copyright (C) 2011, 2012, 2013, Jonathan Bronson
 //  Scientific Computing  &  Imaging Institute
 //  University of Utah
 //
@@ -643,6 +643,26 @@ void BCCLattice3DMesher::compute_quadruple(Tet3D* tet)
     double b5 = M[10]*M[15] - M[11]*M[14];
 
     double det = a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
+
+    if(det == 0)
+    {
+        std::cerr << "Failed to compute Quadruple. Determinant Zero. Using Barycenter." << std::endl;
+
+        Vertex3D *quad = new Vertex3D(lattice->materials());
+
+        quad->lbls[verts[0]->label] = true;
+        quad->lbls[verts[1]->label] = true;
+        quad->lbls[verts[2]->label] = true;
+        quad->lbls[verts[3]->label] = true;
+
+        quad->pos() = 0.25*verts[0]->pos() + 0.25*verts[1]->pos() + 0.25*verts[2]->pos() + 0.25*verts[3]->pos();
+        quad->order() = QUAD;
+        quad->violating = false;
+        tet->quad = quad;
+        quad->closestGeometry = NULL;
+        return;
+    }
+
     double invDet = 1/det;
 
     inv[ 0] = ( M[ 5]*b5 - M[ 6]*b4 + M[ 7]*b3)*invDet;
@@ -1841,6 +1861,11 @@ void BCCLattice3DMesher::conformQuadruple(Tet3D *tet, Vertex3D *warp_vertex, con
     vec3 v3 = verts[2]->pos();
     vec3 v4 = verts[3]->pos();
 
+    if(quadruple != quadruple)
+    {
+        std::cerr << "PROBLEM!" << std::endl;
+    }
+
     // Fill Coordinate Matrix
     A[0][0] = v1.x - v4.x; A[0][1] = v2.x - v4.x; A[0][2] = v3.x - v4.x;
     A[1][0] = v1.y - v4.y; A[1][1] = v2.y - v4.y; A[1][2] = v3.y - v4.y;
@@ -2223,6 +2248,7 @@ void BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, cons
 
     lambda /= L1(lambda);
 
+
     // Compute New Triple Coordinate
     triple.x = lambda.x*v1.x + lambda.y*v2.x + lambda.z*v3.x;
     triple.y = lambda.x*v1.y + lambda.y*v2.y + lambda.z*v3.y;
@@ -2230,7 +2256,7 @@ void BCCLattice3DMesher::conformTriple(Face3D *face, Vertex3D *warp_vertex, cons
 
     if(triple == vec3::zero || triple != triple)
     {
-        cerr << "Error Conforming Triple!" << endl;
+        std::cerr << "Error Conforming Triple!" << std::endl;
         exit(-1);
     }
 

@@ -44,11 +44,4 @@ namespace Cleaver
 {
 
 
-// Vertex3D Deconstructor
-Vertex3D::~Vertex3D()
-{
-    delete[] lbls;
-    lbls = NULL;
-}
-
 }

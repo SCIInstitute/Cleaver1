@@ -45,6 +45,7 @@
 #include "Volume.h"
 #include "TetMesh.h"
 #include <string>
+#include <stdexcept>
 
 namespace Cleaver
 {            

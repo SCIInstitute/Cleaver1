@@ -135,8 +135,6 @@ public:
 class BCCLattice3D
 {
 public:
-    //BCCLattice3D(int width, int height, int depth, int materials);
-    //BCCLattice3D(int width, int height, int depth, int materials, float *data);
     BCCLattice3D(const AbstractVolume *volume);
     ~BCCLattice3D();
 

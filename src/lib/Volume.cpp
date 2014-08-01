@@ -126,25 +126,4 @@ const BoundingBox& Volume::bounds() const
     return m_bounds;
 }
 
-//----------------------------------------------------
-// This function creates a new volume that contains
-// the original volume with padding on the edges to
-// avoid having transitions on the boundary
-// User is responsible for freeing the scalar fields
-// web done.
-//----------------------------------------------------
-/*
-static Volume createPaddedVolume(const Volume &volume, float thickness, float high, float low)
-{
-    std::vector<ScalarField*> paddedFields;
-
-    for(int i=0; i < volume.materials(); i++)
-    {
-        paddedFields.push_back(new PaddedField(volume.getMaterial(i)));
-    }
-
-    return Volume(paddedFields);
-}
-*/
-
 }

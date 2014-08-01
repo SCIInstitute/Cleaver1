@@ -114,7 +114,6 @@ private:
     void fixTriangleOrdering(Edge3D *edges[], Vertex3D *verts[]);
     void fixTetrahedronOrdering(Face3D *faces[], Edge3D *edges[], Vertex3D *verts[]);
 
-    //bool tets_share_verts(int i, int j, Tet3D *tet);
     vec3 centerOfMass(const std::vector<Edge3D*> &viol_edges, const std::vector<Face3D*> &viol_faces, const std::vector<Tet3D*> &viol_tets);
 
     void strip_bad_tets(Tet3D *tet);

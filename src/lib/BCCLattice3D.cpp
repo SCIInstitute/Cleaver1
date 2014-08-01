@@ -822,17 +822,6 @@ bool BCCLattice3D::isKeyValid(unsigned char key)
         return true;
     else
         return false;
-
-    /*
-    // old key ordering
-    if (key == 0 || key == 14 || key == 21 || key == 35 || key == 56 ||
-       key == 27 || key == 45 || key == 54 ||
-       key == 31 || key == 47 || key == 55 || key == 59 || key == 61 || key == 62 ||
-       key == 63)
-        return true;
-    else
-        return false;
-    */
 }
 
 
@@ -2485,7 +2474,7 @@ Tet3D* BCCLattice3D::getInnerTet(const Edge3D *edge, const Vertex3D *warp_vertex
     else
         static_vertex = edge->v1;
 
-    vec3 origin = 0.5*(edge->v1->pos() + edge->v2->pos());  //edge->cut->pos(); //static_vertex->pos(); //
+    vec3 origin = 0.5*(edge->v1->pos() + edge->v2->pos());  
     vec3 ray = warp_pt - origin;
 
     for(unsigned int t=0; t < tet_count; t++)

@@ -85,7 +85,7 @@ CleaverMesher::CleaverMesher(const AbstractVolume *volume) : m_pimpl(new Cleaver
 
 void CleaverMesher::createTetMesh(bool verbose)
 {
-    BCCLattice3DMesher mesher(m_pimpl->m_lattice);//, alpha_short, alpha_long);
+    BCCLattice3DMesher mesher(m_pimpl->m_lattice);
     m_pimpl->m_mesh = mesher.mesh(true, verbose);
     if(!m_pimpl->m_mesh)
         cerr << "Failed to produce an output mesh." << endl;
@@ -238,7 +238,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                     // Overwriting won't matter, as new value will be same as old
 
                     // check left
-                    //OTCell *leftCell = lattice->tree->getNeighbor(cell, -1, 0, 0);
                     OTCell *leftCell = lattice->tree->getCell(i-1, j, k);
                     if(leftCell){
                         cell->vert[ULF] = leftCell->vert[URF];
@@ -250,15 +249,9 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->edge[LL] = leftCell->edge[LR];
                         cell->edge[FL] = leftCell->edge[FR];
                         cell->edge[BL] = leftCell->edge[BR];
-
-                        //cell->face[FLUF] = leftCell->face[FRUF];
-                        //cell->face[FLUB] = leftCell->face[FRUB];
-                        //cell->face[FLLF] = leftCell->face[FRLF];
-                        //cell->face[FLLB] = leftCell->face[FRLB];
                     }
 
                     // check below
-                    //OTCell *bottomCell = lattice->tree->getNeighbor(cell, 0, -1, 0);
                     OTCell *bottomCell = lattice->tree->getCell(i, j-1, k);
                     if(bottomCell){
                         cell->vert[LLF] = bottomCell->vert[ULF];
@@ -270,15 +263,9 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->edge[LR] = bottomCell->edge[UR];
                         cell->edge[LF] = bottomCell->edge[UF];
                         cell->edge[LB] = bottomCell->edge[UB];
-
-                        //cell->face[FDFL] = bottomCell->face[FUFL];
-                        //cell->face[FDFR] = bottomCell->face[FUFR];
-                        //cell->face[FDBL] = bottomCell->face[FUBL];
-                        //cell->face[FDBR] = bottomCell->face[FUBR];
                     }
 
                     // check in front
-                    //OTCell *frontCell = lattice->tree->getNeighbor(cell, 0, 0, -1);
                     OTCell *frontCell = lattice->tree->getCell(i, j, k-1);
                     if(frontCell){
                         cell->vert[ULF] = frontCell->vert[ULB];
@@ -290,11 +277,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->edge[LF] = frontCell->edge[LB];
                         cell->edge[FL] = frontCell->edge[BL];
                         cell->edge[FR] = frontCell->edge[BR];
-
-                        //cell->face[FFUL] = frontCell->face[FBUL];
-                        //cell->face[FFUR] = frontCell->face[FBUR];
-                        //cell->face[FFLL] = frontCell->face[FBLL];
-                        //cell->face[FFLR] = frontCell->face[FBLR];
                     }
 
                     // check Lower Left
@@ -374,7 +356,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[ULF] = new Vertex3D(m, cell, ULF);
                         cell->vert[ULF]->label = mULF;
                         cell->vert[ULF]->lbls[mULF] = true;
-                        //cell->vert[ULF]->vals = ULF_vals;
 
                         cell->vert[ULF]->pos().x = cell->xLocCode;
                         cell->vert[ULF]->pos().y = cell->yLocCode + 1;
@@ -384,7 +365,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[ULB] = new Vertex3D(m, cell, ULB);
                         cell->vert[ULB]->label = mULB;
                         cell->vert[ULB]->lbls[mULB] = true;
-                        //cell->vert[ULB]->vals = ULB_vals;
 
                         cell->vert[ULB]->pos().x = cell->xLocCode;
                         cell->vert[ULB]->pos().y = cell->yLocCode + 1;
@@ -394,7 +374,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[URF] = new Vertex3D(m, cell, URF);
                         cell->vert[URF]->label = mURF;
                         cell->vert[URF]->lbls[mURF] = true;
-                        //cell->vert[URF]->vals = URF_vals;
 
                         cell->vert[URF]->pos().x = cell->xLocCode + 1;
                         cell->vert[URF]->pos().y = cell->yLocCode + 1;
@@ -404,7 +383,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[URB] = new Vertex3D(m, cell, URB);
                         cell->vert[URB]->label = mURB;
                         cell->vert[URB]->lbls[mURB] = true;
-                        //cell->vert[URB]->vals = URB_vals;
 
                         cell->vert[URB]->pos().x = cell->xLocCode + 1;
                         cell->vert[URB]->pos().y = cell->yLocCode + 1;
@@ -415,7 +393,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[LLF] = new Vertex3D(m, cell, LLF);
                         cell->vert[LLF]->label = mLLF;
                         cell->vert[LLF]->lbls[mLLF] = true;
-                        //cell->vert[LLF]->vals = LLF_vals;
 
                         cell->vert[LLF]->pos().x = cell->xLocCode;
                         cell->vert[LLF]->pos().y = cell->yLocCode;
@@ -425,7 +402,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[LLB] = new Vertex3D(m, cell, LLB);
                         cell->vert[LLB]->label = mLLB;
                         cell->vert[LLB]->lbls[mLLB] = true;
-                        //cell->vert[LLB]->vals = LLB_vals;
 
                         cell->vert[LLB]->pos().x = cell->xLocCode;
                         cell->vert[LLB]->pos().y = cell->yLocCode;
@@ -435,7 +411,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[LRF] = new Vertex3D(m, cell, LRF);
                         cell->vert[LRF]->label = mLRF;
                         cell->vert[LRF]->lbls[mLRF] = true;
-                        //cell->vert[LRF]->vals = LRF_vals;
 
                         cell->vert[LRF]->pos().x = cell->xLocCode + 1;
                         cell->vert[LRF]->pos().y = cell->yLocCode;
@@ -445,7 +420,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
                         cell->vert[LRB] = new Vertex3D(m, cell, LRB);
                         cell->vert[LRB]->label = mLRB;
                         cell->vert[LRB]->lbls[mLRB] = true;
-                        //cell->vert[LRB]->vals = LRB_vals;
 
                         cell->vert[LRB]->pos().x = cell->xLocCode + 1;
                         cell->vert[LRB]->pos().y = cell->yLocCode;
@@ -1012,8 +986,6 @@ BCCLattice3D* constructLatticeFromVolume(const AbstractVolume *volume)
     }
 
 
-    //enforce_field_constraint(lattice);
-
     lattice->tree->balance_tree();
     lattice->tree->create_background_grid(lattice->buffer_cells);
     lattice->tree->label_background_tets(lattice->labels);
@@ -1029,8 +1001,6 @@ static void interpolate_cell(OTCell *cell, BCCLattice3D *lattice)
     int m = lattice->materials();
 
     cell->vert[C] = new Vertex3D(m, cell, C);
-    //cell->vert[C]->vals = new float[m];
-    //memset(cell->vert[C]->vals, 0, m*sizeof(float));
     float i = cell->vert[C]->pos().x = cell->xLocCode + 0.5f;
     float j = cell->vert[C]->pos().y = cell->yLocCode + 0.5f;
     float k = cell->vert[C]->pos().z = cell->zLocCode + 0.5f;
@@ -1039,12 +1009,6 @@ static void interpolate_cell(OTCell *cell, BCCLattice3D *lattice)
     double max = -10000;
 
     for(int mat=0; mat < m; mat++){
-
-        // copy all values, in case one appears in neighbor dual
-        //for(int i=0; i < 8; i++){
-        //    cell->vert[C]->vals[mat] += cell->vert[i]->vals[mat];
-        //}
-        //cell->vert[C]->vals[mat] *= 0.125f;  // * 1/8
 
         bool found = false;
         for(int v=0; v < 8; v++){
@@ -1064,42 +1028,12 @@ static void interpolate_cell(OTCell *cell, BCCLattice3D *lattice)
         }
     }
 
-    // make sure no values are equivalent to max
-    /*
-    for(int mat=0; mat < m; mat++){
-        float value = lattice->fields->valueAt(i,j,k,mat);
-        if(value == max && mat != dom){
-            float diff = 1E-6*fabs(max);  diff = fmax(1E-6, diff);
-            lattice->fields->setNewValueAt(max - diff, i, j, k, mat);
-        }
-    }
-    */
-
-    //max = cell->vert[C]->vals[dom] += 10.1;
-
-
-    // now double check values aren't equivalent
-    /*
-    int max_count = 0;
-    for(int mat=0; mat < m; mat++){
-        float value = lattice->fields->valueAt(i,j,k,mat);
-        if(value == max){
-            max_count++;
-        }
-    }
-    if(max_count != 1)
-        cerr << "Problem!! - Dual Vertex has no clear max value" << endl;
-    */
-
     cell->vert[C]->lbls[dom] = true;
     cell->vert[C]->label = dom;
 }
 
 static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
 {
-    //if(i == 62 && j == 7 && k == 37)
-    //    std::cout  << "adding cell:" << i << "," << j << "," << k << std::endl;
-
     OTCell* new_cell = 0;
 
     // If NULL returned
@@ -1114,7 +1048,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
 
             int w = lattice->width();
             int h = lattice->height();
-            //int d = lattice->depth();
             int m = lattice->materials();
 
             cell->vert = new Vertex3D*[VERTS_PER_CELL];
@@ -1138,15 +1071,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
             unsigned char mULB = lattice->LBL3D(i,(j+1),(k+1));
             unsigned char mURF = lattice->LBL3D((i+1),(j+1),k);
             unsigned char mURB = lattice->LBL3D((i+1),(j+1),(k+1));
-
-//            float *LLF_vals = &lattice->DATA3D(i,j,k,m,0);
-//            float *LLB_vals = &lattice->DATA3D(i,j,(k+1),m,0);
-//            float *LRF_vals = &lattice->DATA3D((i+1),j,k,m,0);
-//            float *LRB_vals = &lattice->DATA3D((i+1),j,(k+1),m,0);
-//            float *ULF_vals = &lattice->DATA3D(i,(j+1),k,m,0);
-//            float *ULB_vals = &lattice->DATA3D(i,(j+1),(k+1),m,0);
-//            float *URF_vals = &lattice->DATA3D((i+1),(j+1),k,m,0);
-//            float *URB_vals = &lattice->DATA3D((i+1),(j+1),(k+1),m,0);
 
             //--------------------------------------
             // Try To Use Neighbor Vertex Pointers
@@ -1385,7 +1309,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[ULF] = new Vertex3D(m, cell, ULF);
                 cell->vert[ULF]->label = mULF;
                 cell->vert[ULF]->lbls[mULF] = true;
-                //cell->vert[ULF]->vals = ULF_vals;
                 cell->vert[ULF]->pos().x = cell->xLocCode;
                 cell->vert[ULF]->pos().y = cell->yLocCode + 1;
                 cell->vert[ULF]->pos().z = cell->zLocCode;
@@ -1394,7 +1317,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[ULB] = new Vertex3D(m, cell, ULB);
                 cell->vert[ULB]->label = mULB;
                 cell->vert[ULB]->lbls[mULB] = true;
-                //cell->vert[ULB]->vals = ULB_vals;
                 cell->vert[ULB]->pos().x = cell->xLocCode;
                 cell->vert[ULB]->pos().y = cell->yLocCode + 1;
                 cell->vert[ULB]->pos().z = cell->zLocCode + 1;
@@ -1403,7 +1325,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[URF] = new Vertex3D(m, cell, URF);
                 cell->vert[URF]->label = mURF;
                 cell->vert[URF]->lbls[mURF] = true;
-                //cell->vert[URF]->vals = URF_vals;
                 cell->vert[URF]->pos().x = cell->xLocCode + 1;
                 cell->vert[URF]->pos().y = cell->yLocCode + 1;
                 cell->vert[URF]->pos().z = cell->zLocCode;
@@ -1412,7 +1333,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[URB] = new Vertex3D(m, cell, URB);
                 cell->vert[URB]->label = mURB;
                 cell->vert[URB]->lbls[mURB] = true;
-                //cell->vert[URB]->vals = URB_vals;
                 cell->vert[URB]->pos().x = cell->xLocCode + 1;
                 cell->vert[URB]->pos().y = cell->yLocCode + 1;
                 cell->vert[URB]->pos().z = cell->zLocCode + 1;
@@ -1422,7 +1342,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[LLF] = new Vertex3D(m, cell, LLF);
                 cell->vert[LLF]->label = mLLF;
                 cell->vert[LLF]->lbls[mLLF] = true;
-                //cell->vert[LLF]->vals = LLF_vals;
 
                 cell->vert[LLF]->pos().x = cell->xLocCode;
                 cell->vert[LLF]->pos().y = cell->yLocCode;
@@ -1432,7 +1351,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[LLB] = new Vertex3D(m, cell, LLB);
                 cell->vert[LLB]->label = mLLB;
                 cell->vert[LLB]->lbls[mLLB] = true;
-                //cell->vert[LLB]->vals = LLB_vals;
                 cell->vert[LLB]->pos().x = cell->xLocCode;
                 cell->vert[LLB]->pos().y = cell->yLocCode;
                 cell->vert[LLB]->pos().z = cell->zLocCode + 1;
@@ -1441,7 +1359,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[LRF] = new Vertex3D(m, cell, LRF);
                 cell->vert[LRF]->label = mLRF;
                 cell->vert[LRF]->lbls[mLRF] = true;
-                //cell->vert[LRF]->vals = LRF_vals;
                 cell->vert[LRF]->pos().x = cell->xLocCode + 1;
                 cell->vert[LRF]->pos().y = cell->yLocCode;
                 cell->vert[LRF]->pos().z = cell->zLocCode;
@@ -1450,7 +1367,6 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
                 cell->vert[LRB] = new Vertex3D(m, cell, LRB);
                 cell->vert[LRB]->label = mLRB;
                 cell->vert[LRB]->lbls[mLRB] = true;
-                //cell->vert[LRB]->vals = LRB_vals;
                 cell->vert[LRB]->pos().x = cell->xLocCode + 1;
                 cell->vert[LRB]->pos().y = cell->yLocCode;
                 cell->vert[LRB]->pos().z = cell->zLocCode + 1;
@@ -1459,10 +1375,7 @@ static OTCell* addCell(BCCLattice3D *lattice, int i, int j, int k)
             //---------------------------------------
             // create interpolated center vertex
             //---------------------------------------
-            //if(!fields.empty())
-                create_dual_vertex(cell, lattice);
-            //else
-            //    interpolate_cell(cell,lattice);
+            create_dual_vertex(cell, lattice);
 
             // Fill Edges That May Be Shared If They Don't Exist
             if(!cell->edge[UL]){
@@ -1576,8 +1489,6 @@ static void create_dual_vertex(OTCell *cell, BCCLattice3D *lattice)
     int m = lattice->materials();
 
     cell->vert[C] = new Vertex3D(m, cell, C);
-    //cell->vert[C]->vals = new float[m];
-    //memset(cell->vert[C]->vals, 0, m*sizeof(float));
     float x = cell->vert[C]->pos().x = cell->xLocCode + 0.5f;
     float y = cell->vert[C]->pos().y = cell->yLocCode + 0.5f;
     float z = cell->vert[C]->pos().z = cell->zLocCode + 0.5f;
@@ -1588,11 +1499,6 @@ static void create_dual_vertex(OTCell *cell, BCCLattice3D *lattice)
     for(int mat=0; mat < m; mat++){
 
         // grab value from field
-
-        //cell->vert[C]->vals[mat] = fields[mat]->valueAt(x,y,z);
-        //cell->vert[C]->vals[mat] = field->value(cell->vert[C]->pos().x,
-        //                                        cell->vert[C]->pos().y,
-        //                                        cell->vert[C]->pos().z,mat);
 
         bool found = false;
         for(int i=0; i < 8; i++){
@@ -1611,33 +1517,6 @@ static void create_dual_vertex(OTCell *cell, BCCLattice3D *lattice)
             dom = mat;
         }
     }
-
-    // make sure no values are equivalent to max
-    /*
-    for(int mat=0; mat < m; mat++){
-        float value = lattice->fields->valueAt(x,y,z,mat);
-        if(value == max && mat != dom){
-            float diff = 1E-6*fabs(max); diff = fmax(1E-6, diff);
-            float new_value = max - diff;
-            lattice->fields->setNewValueAt(new_value, x, y, z, mat);
-        }
-    }
-    */
-
-    //max = cell->vert[C]->vals[dom] += 10.1;
-
-    // now double check values aren't equivalent
-    /*
-    int max_count = 0;
-    for(int mat=0; mat < m; mat++){
-        float value = lattice->fields->valueAt(x,y,z,mat);
-        if(value == max){
-            max_count++;
-        }
-    }
-    if(max_count != 1)
-        cerr << "Problem!! - Dual Vertex has no clear max value" << endl;
-    */
 
     cell->vert[C]->lbls[dom] = true;
     cell->vert[C]->label = dom;

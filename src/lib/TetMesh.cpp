@@ -337,10 +337,6 @@ void TetMesh::writeMultiplePly(const vector<std::string> &inputs, const std::str
 
         if(t1->mat_label != t2->mat_label)
         {
-            // skip boundary padding
-            //if(lattice->padded() && (t1->mat_label == lattice->materials() - 1 || t2->mat_label == lattice->materials() - 1))
-            //    continue;
-
             interfaces.push_back(f);
 
             unsigned int color_key = (1 << (int)t1->mat_label) + (1 << (int)t2->mat_label);
@@ -425,9 +421,6 @@ void TetMesh::writeMultiplePly(const vector<std::string> &inputs, const std::str
         //-----------------------------------
         for(unsigned int f=0; f < meshes[m].size(); f++)
         {
-            //Face &face = faces[interfaces[f]];
-            //int f = meshes[m][ff];
-
             // output 3 vertices
             file << "3 " << (3*f + 0) << " " << (3*f + 1) << " " << (3*f + 2) << " ";
 
@@ -440,9 +433,6 @@ void TetMesh::writeMultiplePly(const vector<std::string> &inputs, const std::str
         // end with a single blank line
         file << endl;
 
-        //-----------------------------------
-        //          Close  File
-        //-----------------------------------
         file.close();
     }
 }
@@ -519,8 +509,6 @@ void TetMesh::writeNodeEle(const string &filename, bool verbose)
             elem_file << " " << this->tets[i]->verts[v]->tm_v_index + 1;
         if(include_materials)
             elem_file << " " << this->tets[i]->mat_label + 1;
-        //if(include_angles)
-        //    elem_file << " " << tree->tets_JRB[i]->dihedral_angles[0];
         elem_file << endl;
     }
 

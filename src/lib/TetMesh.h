@@ -94,11 +94,9 @@ public:
     ~TetMesh();
 
 
-    //void writeOff(const std::string &filename);
     void writeMatlab(const std::string &filename, bool verbose = false);   // matlab format
     void writeNodeEle(const std::string &filename, bool verbose = false);  // tetview format
     void writePtsEle(const std::string &filename, bool verbose = false);   // scirun format
-    //void writePlyConnected(const std::string  &filename);
     void writePly(const std::string &filename, bool verbose = false);
     void writeMultiplePly(const std::vector<std::string> &inputs, const std::string &filename, bool verbose = false);
     void writeInfo(const std::string &filename, bool verbose = false);

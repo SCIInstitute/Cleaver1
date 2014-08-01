@@ -42,8 +42,12 @@ SET(${PROJECT_NAME}_PATCH_LEVEL 0)
 # project options
 OPTION(BUILD_SHARED_LIBS OFF)
 
-# Add Teem library includes
-INCLUDE_DIRECTORIES(${Teem_BINARY_DIR}/include)
+# Add Teem library and other includes
+INCLUDE_DIRECTORIES(
+  ${Teem_BINARY_DIR}/include
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+  )
 
 # source files
 FILE(GLOB Cleaver_SOURCE_FILES *.c*)
@@ -76,6 +80,10 @@ FOREACH(header_file ${Cleaver_API_HEADER_FILES})
     ${Cleaver_INSTALLED_HEADER_FILES}
     "${CMAKE_BINARY_DIR}/include/Cleaver/${file_no_path}")
 ENDFOREACH(header_file)
+set_property(GLOBAL APPEND PROPERTY Cleaver_INCLUDE_DIRS
+ "${CMAKE_BINARY_DIR}/include/")
 
 # output library
-ADD_LIBRARY(cleaver ${Cleaver_HEADER_FILES} ${Cleaver_SOURCE_FILES})
+SET(LIBRARY_TO_EXPORT cleaver)
+ADD_LIBRARY(${LIBRARY_TO_EXPORT} ${Cleaver_HEADER_FILES} ${Cleaver_SOURCE_FILES})
+CLEAVER_EXPORT_LIBRARY()

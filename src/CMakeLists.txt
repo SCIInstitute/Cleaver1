@@ -36,12 +36,13 @@
 PROJECT(CLEAVER)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-SET(CMAKE_BUILD_TYPE DEBUG)
-#SET(CMAKE_BUILD_TYPE RelWithDebInfo)
-#SET(CMAKE_CXX_FLAGS "-Wall -ansi -O3" )
-#SET(CMAKE_DEBUG_FLAGS "-Wall -ansi -O3" )
-
 OPTION(BUILD_CLEAVER_APP "Build Cleaver Command Line App (Requires TEEM)" ON)
+
+SET(Cleaver_CMAKE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+INCLUDE_DIRECTORIES(${Cleaver_CMAKE_DIR})
+INCLUDE(${Cleaver_CMAKE_DIR}/CleaverExportLibrary.cmake)
+
+SET(Cleaver_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 # Build Cleaver Library (no dependencies)
 ADD_SUBDIRECTORY(lib)
@@ -52,3 +53,19 @@ IF(BUILD_CLEAVER_APP)
     ADD_SUBDIRECTORY(cmd)
 ENDIF(BUILD_CLEAVER_APP)
 
+# The following variables have been set by each sub directory project.
+# They are used to configure CleaverConfig.cmake.in.
+GET_PROPERTY(Cleaver_LIBRARIES GLOBAL PROPERTY Cleaver_LIBRARIES)
+LIST(REMOVE_DUPLICATES Cleaver_LIBRARIES)
+
+GET_PROPERTY(Cleaver_INCLUDE_DIRS GLOBAL PROPERTY Cleaver_INCLUDE_DIRS)
+LIST(REMOVE_DUPLICATES Cleaver_INCLUDE_DIRS)
+
+GET_PROPERTY(Cleaver_LIBRARY_DIRS GLOBAL PROPERTY Cleaver_LIBRARY_DIRS)
+LIST(REMOVE_DUPLICATES Cleaver_LIBRARY_DIRS)
+
+# Configure config file for find_package
+CONFIGURE_FILE(
+  ${Cleaver_CMAKE_DIR}/CleaverConfig.cmake.in
+  ${Cleaver_BINARY_DIR}/CleaverConfig.cmake
+  )

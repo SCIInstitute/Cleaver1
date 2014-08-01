@@ -1,0 +1,8 @@
+src/teem/arch/win32/src/pv/pngio.c text=crlf
+src/teem/arch/win32/src/pv/pngio.h -crlf
+src/teem/arch/win32/src/pv/pv.c -crlf
+src/teem/arch/win32/src/pv/pv.dsp -crlf
+src/teem/arch/win32/src/pv/pv.dsw -crlf
+src/teem/arch/win32/src/pv/pv.rc -crlf
+src/teem/arch/win32/src/pv/resource.h -crlf
+

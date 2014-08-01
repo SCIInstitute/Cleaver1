@@ -53,7 +53,7 @@ public:
     enum CenteringType { NodeCentered, CellCentered };
 
 public:
-    FloatField(int w, int h, int d, float *data);
+    FloatField(int width=0, int height=0, int depth = 0, float *data = 0);
     ~FloatField();
 
     virtual float valueAt(float x, float y, float z) const;
@@ -76,7 +76,7 @@ private:
     int m_w, m_h, m_d;
     vec3 m_scale;
     vec3 m_scaleInv;
-    BoundingBox m_bounds;    
+    BoundingBox m_bounds;
     CenteringType m_centeringType;
     float *m_data;
 

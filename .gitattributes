@@ -5,4 +5,9 @@ src/teem/arch/win32/src/pv/pv.dsp -crlf
 src/teem/arch/win32/src/pv/pv.dsw -crlf
 src/teem/arch/win32/src/pv/pv.rc -crlf
 src/teem/arch/win32/src/pv/resource.h -crlf
-
+src/teem/arch/win32/build/teem.dsw.tmpl -crlf
+src/teem/arch/win32/build/teem.vcproj.tmpl -crlf
+src/teem/arch/win32/build/teem_bin.dsp.tmpl -crlf
+src/teem/arch/win32/build/teem_shared.dsp.tmpl -crlf
+src/teem/arch/win32/build/teem_static.dsp.tmpl -crlf
+src/teem/arch/win32/build/teembin.vcproj.tmpl -crlf

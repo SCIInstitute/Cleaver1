@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SCIInstitute/Cleaver.svg)](https://travis-ci.org/SCIInstitute/Cleaver)
+
 Cleaver - A MultiMaterial Tetrahedral Meshing Library and Application
 Jonathan Bronson
 Scientific Computing & Imaging Institute

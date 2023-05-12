@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/SCIInstitute/Cleaver.svg)](https://travis-ci.org/SCIInstitute/Cleaver)
-
 ### Cleaver - A MultiMaterial Tetrahedral Meshing Library and Application
 Jonathan Bronson  
 Scientific Computing & Imaging Institute  
@@ -10,10 +8,11 @@ Mailing list: cleaver@sci.utah.edu
 Contact:      bronson@sci.utah.edu  
 
 The Cleaver Library is based on the 'Lattice Cleaving' algorithm:
-Bronson J., Levine, J., Whitaker R., "Lattice Cleaving: Conforming 
-Tetrahedral Meshes of Multimaterial Domains with  Bounded Quality". 
-Proceedings of the 21st International Meshing Roundtable 
-(San Jose, CA, Oct 7-10, 2012)
+
+> Bronson J., Levine, J., Whitaker R., "Lattice Cleaving: Conforming
+> Tetrahedral Meshes of Multimaterial Domains with  Bounded Quality".
+> Proceedings of the 21st International Meshing Roundtable
+> (San Jose, CA, Oct 7-10, 2012)
 
 The method is theoretically guaranteed to produce valid meshes with bounded
 dihedral angles, while still conforming to multi-material material surfaces. 
@@ -34,7 +33,8 @@ Alternatively, if you do not wish to build the command line program
 
 #### USAGE:
 
-*What Can Cleaver Do?*  
+*What Can Cleaver Do?*
+
    Cleaver generates conforming tetrahedral meshes for
    multimaterial or multiphase volumetric data. Both 
    geometric accuracy and element quality are bounded. 
@@ -42,7 +42,8 @@ Alternatively, if you do not wish to build the command line program
    on an octree structure to provide a coarse level of
    grading in regions of homogeneity.
 
-*What does Cleaver use as input?*  
+*What does Cleaver use as input?*
+
    The cleaving algorithm works by utilizing indicator
    functions. These functions indicate the strength or
    relative presence of a particular material. At each
@@ -50,7 +51,8 @@ Alternatively, if you do not wish to build the command line program
    value is considered present. In practice, inside-
    outside and distance functions are most common.
 
-*What is the input format?*  
+*What is the input format?*
+
    The cleaver library takes as input an instance of the
    Cleaver::Volume class. The Volume is a collection of
    Cleaver::ScalarField's, along with a sampling rate.
@@ -61,7 +63,8 @@ Alternatively, if you do not wish to build the command line program
    offers convenience functions for loading the teem NRRD
    image format into the FloatField format.
 
-*What is the output format?*  
+*What is the output format?*
+
    The Cleaver Library returns a Cleaver::TetMesh object.  
    This object supports direct output to file in several formats:  
     1. TetGen:  .node, .ele  
@@ -69,9 +72,6 @@ Alternatively, if you do not wish to build the command line program
     3. Matlab:  .mat  
 
 #### BUGS / FEATURE REQUESTS
-
-Please send all bug reports and feature requests to the Cleaver
-mailing list:  cleaver@sci.utah.edu
 
 Some geometric operations in this code do not yet use proper predicates,
 and are therefore not guaranteed safe for all possible input fields. This
